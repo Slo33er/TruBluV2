@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ session.full_name }} ({{ session.role|capitalize }})</h2>
+<h3>Container Entries</h3>
+<table>
+<tr><th>Date</th><th>Worker</th><th>Site</th><th>Type</th><th>Count</th><th>Pay</th><th>Status</th><th>Actions</th></tr>
+{% for j in jobs %}
+<tr>
+<td>{{ j.submitted_at[:10] }}</td>
+<td>{{ j.worker_name }}</td>
+<td>{{ j.site_name }}</td>
+<td>{{ j.container_type }}</td>
+<td>{{ j.container_count }}</td>
+<td>${{ '%.2f'|format(j.calculated_pay) }}</td>
+<td>{{ j.status }}</td>
+<td>
+  <form method="post" action="{{ url_for('set_status', job_id=j.id) }}" class="inline">
+    <select name="status">
+      <option value="pending">pending</option>
+      <option value="approved">approved</option>
+      <option value="rejected">rejected</option>
+    </select>
+    <button type="submit">Update</button>
+  </form>
+  {% if session.role == 'owner' %}
+  <a href="{{ url_for('edit_job', job_id=j.id) }}">Edit</a>
+  <form method="post" action="{{ url_for('delete_job', job_id=j.id) }}" class="inline"><button type="submit">Delete</button></form>
+  {% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Toolbox Meetings</h3>
+<ul>
+{% for t in toolbox %}
+<li>{{ t.submitted_at[:10] }} - {{ t.worker_name }}: {{ t.topic }}</li>
+{% endfor %}
+</ul>
+
+<h3>Worker Summary</h3>
+<table>
+<tr><th>Worker</th><th>Total Jobs</th><th>Total Pay</th></tr>
+{% for s in summary %}
+<tr><td>{{ s.full_name }}</td><td>{{ s.jobs }}</td><td>${{ '%.2f'|format(s.total_pay) }}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

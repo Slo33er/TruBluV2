@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Tru Blu Ops Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+<header>
+  <h1>Tru Blu Ops Portal</h1>
+  {% if session.get('user_id') %}
+  <nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    {% if session.get('role') == 'worker' %}
+      <a href="{{ url_for('new_job') }}">New Container Job</a>
+      <a href="{{ url_for('new_toolbox') }}">New Toolbox Meeting</a>
+    {% endif %}
+    {% if session.get('role') in ['admin','owner'] %}
+      <a href="{{ url_for('weekly_summary') }}">Weekly Summary</a>
+    {% endif %}
+    {% if session.get('role') == 'owner' %}
+      <a href="{{ url_for('owner_settings') }}">Owner Settings</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+  {% endif %}
+</header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

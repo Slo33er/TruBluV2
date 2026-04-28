@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Owner Settings</h2>
+<section>
+<h3>Manage Staff/Users</h3>
+<form method="post">
+  <input type="hidden" name="action" value="add_staff" />
+  <input name="full_name" placeholder="Full name" required />
+  <input name="username" placeholder="Username" required />
+  <input name="password" placeholder="Password" required />
+  <select name="role"><option value="worker">worker</option><option value="admin">admin</option><option value="owner">owner</option></select>
+  <button type="submit">Add User</button>
+</form>
+<ul>{% for u in staff %}<li>{{ u.full_name }} ({{ u.role }}) - {{ u.username }}</li>{% endfor %}</ul>
+</section>
+
+<section>
+<h3>Manage Sites</h3>
+<form method="post">
+  <input type="hidden" name="action" value="add_site" />
+  <input name="site_name" placeholder="New site name" required />
+  <button type="submit">Add Site</button>
+</form>
+<ul>{% for s in sites %}<li>{{ s.name }}</li>{% endfor %}</ul>
+</section>
+
+<section>
+<h3>Manage Rate Tables</h3>
+<form method="post">
+  <input type="hidden" name="action" value="add_rate" />
+  <input name="container_type" placeholder="Container type" required />
+  <input name="pay_rate" type="number" step="0.01" placeholder="Pay rate" required />
+  <button type="submit">Save Rate</button>
+</form>
+<ul>{% for r in rates %}<li>{{ r.container_type }} - ${{ '%.2f'|format(r.pay_rate) }}</li>{% endfor %}</ul>
+</section>
+
+<section>
+<h3>Lock Pay Period</h3>
+<form method="post">
+  <input type="hidden" name="action" value="lock_week" />
+  <input name="week_start" type="date" required />
+  <button type="submit">Lock Week</button>
+</form>
+<ul>{% for l in locks %}<li>{{ l.week_start }} - {% if l.is_locked %}Locked{% else %}Open{% endif %}</li>{% endfor %}</ul>
+</section>
+{% endblock %}

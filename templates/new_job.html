@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Submit Container Job</h2>
+<form method="post" enctype="multipart/form-data">
+  <label>Site
+    <select name="site_id" required>
+      {% for s in sites %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Container Type
+    <select name="container_type" required>
+      {% for rt in rate_types %}<option value="{{ rt.container_type }}">{{ rt.container_type }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Container Count <input type="number" min="1" name="container_count" required/></label>
+  <label>Notes <textarea name="notes"></textarea></label>
+  <label>Issue Details (optional) <textarea name="issue_text"></textarea></label>
+  <label>Issue Photo (optional) <input type="file" name="photo" /></label>
+  <button type="submit">Submit Job</button>
+</form>
+{% endblock %}
