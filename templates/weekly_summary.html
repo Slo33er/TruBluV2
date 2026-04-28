@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Weekly Summary</h2>
+<p>Week: {{ week_start }} to {{ week_end }}</p>
+<button onclick="window.print()">Print Summary</button>
+<table>
+<tr><th>Worker</th><th>Total Jobs</th><th>Approved Jobs</th><th>Total Pay</th></tr>
+{% for r in rows %}
+<tr>
+  <td>{{ r.full_name }}</td>
+  <td>{{ r.total_jobs }}</td>
+  <td>{{ r.approved_jobs }}</td>
+  <td>${{ '%.2f'|format(r.total_pay) }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

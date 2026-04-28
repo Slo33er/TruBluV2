@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Submit Toolbox Meeting</h2>
+<form method="post">
+  <label>Topic <input name="topic" required /></label>
+  <label>Notes <textarea name="notes"></textarea></label>
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}

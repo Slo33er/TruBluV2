@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Container Job #{{ job.id }}</h2>
+<form method="post">
+  <label>Site
+    <select name="site_id">
+      {% for s in sites %}
+      <option value="{{ s.id }}" {% if s.id == job.site_id %}selected{% endif %}>{{ s.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Container Type
+    <select name="container_type">
+      {% for r in rates %}
+      <option value="{{ r.container_type }}" {% if r.container_type == job.container_type %}selected{% endif %}>{{ r.container_type }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Container Count <input type="number" name="container_count" value="{{ job.container_count }}" /></label>
+  <label>Notes <textarea name="notes">{{ job.notes }}</textarea></label>
+  <label>Issue Details <textarea name="issue_text">{{ job.issue_text }}</textarea></label>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

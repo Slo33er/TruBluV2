@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ session.full_name }} (Worker)</h2>
+<h3>Your Container Jobs</h3>
+<table>
+  <tr><th>Date</th><th>Site</th><th>Type</th><th>Count</th><th>Status</th><th>Issue Photo</th></tr>
+  {% for job in jobs %}
+  <tr>
+    <td>{{ job.submitted_at[:10] }}</td>
+    <td>{{ job.site_name }}</td>
+    <td>{{ job.container_type }}</td>
+    <td>{{ job.container_count }}</td>
+    <td>{{ job.status }}</td>
+    <td>{% if job.photo_path %}<a href="{{ url_for('uploaded_file', filename=job.photo_path) }}">View</a>{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>Your Toolbox Meetings</h3>
+<ul>
+{% for t in toolbox %}
+  <li>{{ t.submitted_at[:10] }} - {{ t.topic }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
